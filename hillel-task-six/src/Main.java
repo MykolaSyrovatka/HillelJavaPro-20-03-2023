@@ -15,6 +15,7 @@ public class Main {
         String word = words[(int)(Math.random()*words.length)];
 
         System.out.println(findSymbolOccurance(str, 'C'));
+        System.out.println(findWordPosition("qwertyqwerTes", ""));
         System.out.println(stringReverse("Hello"));
         System.out.println(stringReverse2("Hello"));
         System.out.println(isPalindrome("qwertytrewq"));
@@ -41,8 +42,32 @@ public class Main {
 
 
 
-    void findWordPosition(){
+    public static int findWordPosition(String source, String target){
+        int index = -1;
 
+        if (source.length()!=0&&target.length()!=0) {
+
+            char[] sources = source.toCharArray();
+            char[] targets = target.toCharArray();
+
+            for (int i = 0; i < sources.length; i++) {
+                if (sources[i] == targets[0] && target.length() <= sources.length - i) {
+                    m:
+                    for (int j = 0; j < targets.length; j++) {
+                        if (targets[j] == sources[j + i]) {
+                            if (j == targets.length - 1) {
+                                index = i;
+                                break;
+                            }
+                        } else {
+                            break m;
+                        }
+
+                    }
+                }
+            }
+        }
+        return index;
     }
 
     public static String stringReverse(String str){
@@ -79,7 +104,7 @@ public class Main {
 
     static void toGuessWord(String hiddenWord) {
         System.out.println("Напишіть яке слово зі списку загадала програма\n" +
-                "apple\torange\tlemon\tbanana\tapricotq\t\n" +
+                "apple\torange\tlemon\tbanana\tapricot\t\n" +
                 "avocado\tbroccoli\tcarrot\tcherry\t\n" +
                 "garlic\tgrape\tmelon\tleak\tkiwi\t\n" +
                 "mango\tmushroom\tnut\tolive\t\n" +
@@ -97,7 +122,7 @@ public class Main {
 
         StringBuilder stringBuilder = new StringBuilder();
 
-        if (hiddenWord.toLowerCase().equals(userWord.toLowerCase())){
+        if (hiddenWord.equalsIgnoreCase(userWord)){
             System.out.println("Вірно, це - " + hiddenWord);
             try {
                 br.close();
