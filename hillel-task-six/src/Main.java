@@ -15,7 +15,7 @@ public class Main {
         String word = words[(int)(Math.random()*words.length)];
 
         System.out.println(findSymbolOccurance(str, 'C'));
-        System.out.println(findWordPosition("qwertyqwerTes", ""));
+        System.out.println(findWordPosition("TestqwertyqwerTest", "Test"));
         System.out.println(stringReverse("Hello"));
         System.out.println(stringReverse2("Hello"));
         System.out.println(isPalindrome("qwertytrewq"));
@@ -62,8 +62,10 @@ public class Main {
                         } else {
                             break m;
                         }
-
                     }
+                }
+                if (index>-1){
+                    break;
                 }
             }
         }
