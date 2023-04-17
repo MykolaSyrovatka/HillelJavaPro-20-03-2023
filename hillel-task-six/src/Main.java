@@ -1,10 +1,27 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 public class Main {
 
     public static void main(String[] args) {
         String str = "qCwcerfdcvc";
-        System.out.println(findSymbolOccurance(str, 'C'));
-        methodOne();
 
+        String[] words = {"apple", "orange", "lemon", "banana", "apricot", "avocado" ,
+                "broccoli", "carrot", "cherry", "garlic", "grape", "melon", "leak",
+                "kiwi", "mango", "mushroom", "nut", "olive", " pea", "peanut", "pear",
+                "pepper", "pineapple", "pumpkin", "potato"};
+
+        String word = words[(int)(Math.random()*words.length)];
+
+        System.out.println(findSymbolOccurance(str, 'C'));
+        System.out.println(stringReverse("Hello"));
+        System.out.println(stringReverse2("Hello"));
+        System.out.println(isPalindrome("qwertytrewq"));
+        System.out.println(isPalindrome(""));
+        System.out.println(isPalindrome("а роза упала на лапу Азора"));
+
+        toGuessWord(word);
     }
 
 
@@ -28,24 +45,86 @@ public class Main {
 
     }
 
-    void stringReverse(){
-
-    }
-
-    void isPalindrome(){
-        
-    }
-
-    static void methodOne(){
-        String[] words = {"apple", "orange", "lemon", "banana", "apricot", "avocado" ,
-                "broccoli", "carrot", "cherry", "garlic", "grape", "melon", "leak",
-                "kiwi", "mango", "mushroom", "nut", "olive", " pea", "peanut", "pear",
-                "pepper", "pineapple", "pumpkin", "potato"};
-        String str = words[(int)(Math.random()*words.length)];
-
-        System.out.println(str);
-
+    public static String stringReverse(String str){
+        if (str.length() > 0) {
+            return new StringBuilder(str).reverse().toString();
+        } else {
+            return str;
+        }
     }
 
 
+    public static String stringReverse2(String str){
+        char [] chars1 = str.toCharArray();
+        char [] chars2 = new char[chars1.length];
+        int count = 0;
+
+        for (int i=chars1.length-1; i>=0; i--){
+            chars2[count]=chars1[i];
+            count++;
+        }
+        return new String(chars2);
+    }
+
+    public static boolean isPalindrome(String str){
+        if (str.length()>0) {
+            return str.toLowerCase().replaceAll("\\s", "")
+                    .equals(new StringBuilder(str).reverse().toString()
+                            .toLowerCase().replaceAll("\\s", ""));
+        } else {
+            return false;
+        }
+    }
+
+
+    static void toGuessWord(String hiddenWord) {
+        System.out.println("Напишіть яке слово зі списку загадала програма\n" +
+                "apple\torange\tlemon\tbanana\tapricotq\t\n" +
+                "avocado\tbroccoli\tcarrot\tcherry\t\n" +
+                "garlic\tgrape\tmelon\tleak\tkiwi\t\n" +
+                "mango\tmushroom\tnut\tolive\t\n" +
+                "pea\tpeanut\tpear\tpepper\tpineapple\t\n" +
+                "pumpkin\tpotato");
+
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String userWord = null;
+        try {
+            userWord = new String(br.readLine());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        if (hiddenWord.toLowerCase().equals(userWord.toLowerCase())){
+            System.out.println("Вірно, це - " + hiddenWord);
+            try {
+                br.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else if (userWord.length()>0){
+            char [] charsHiddenWord = hiddenWord.toLowerCase().toCharArray();
+            char [] charsUserWord = userWord.toLowerCase().toCharArray();
+
+            for(int i=0; i<15; i++){
+                if(i<charsHiddenWord.length & i<charsUserWord.length){
+                    if (charsHiddenWord[i]==charsUserWord[i]){
+                        stringBuilder.append(charsHiddenWord[i]);
+                    } else {
+                        stringBuilder.append('#');
+                    }
+                } else {
+                    stringBuilder.append("#");
+                }
+            }
+            System.out.println("Не вірно. Угадані вами літери - " + stringBuilder.toString()+
+                    "\nСпробуйте ще раз");
+            toGuessWord(hiddenWord);
+        } else {
+            System.out.println("Ви нічого не ввели. Спробуйте ще раз.");
+            toGuessWord(hiddenWord);
+        }
+    }
 }
